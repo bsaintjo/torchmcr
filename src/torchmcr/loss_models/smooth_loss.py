@@ -27,7 +27,7 @@ class SmoothLoss(torch.nn.Module):
         -----
         The total loss is computed as:
         total_loss = base_loss + smooth_spectra_weight * spectra_penalty + smooth_weight_weight * weights_penalty
-        
+
         where the penalties are calculated using finite differences between adjacent elements.
 
 
@@ -37,7 +37,7 @@ class SmoothLoss(torch.nn.Module):
 
         >>> # Create loss function with default parameters
         >>> loss_fn = CustomLoss()
-        >>> 
+        >>>
         >>> # Or customize with lambda for specific parameters
         >>> loss_fn = lambda pred, target, spectra: CustomLoss(
         ...     base_loss_fn=F.mse_loss,
@@ -48,7 +48,7 @@ class SmoothLoss(torch.nn.Module):
         super(SmoothLoss, self).__init__()
         self.base_loss_fn = base_loss_fn
         self.smooth_weight_weight = smooth_weight_weight
-        self.smooth_spectra_weight = smooth_spectra_weight 
+        self.smooth_spectra_weight = smooth_spectra_weight
         self.weight_cross_product_weight = weight_cross_product_weight
 
     def forward(self, predicted, target, spectra, weights):
@@ -102,3 +102,4 @@ class SmoothLoss(torch.nn.Module):
         total_loss = total_loss + self.weight_cross_product_weight * weight_cross_product_penalty
         return total_loss
 
+        return total_loss

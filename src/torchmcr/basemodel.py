@@ -32,8 +32,8 @@ class MCR(nn.Module):
             torch.Tensor: The result of the MCR forward calculation, a matrix product of weights and spectra.
         """
         # Extract or set default values from kwargs
-        weights_kwargs = kwargs.get('weights_kwargs', {})
-        spectra_kwargs = kwargs.get('spectra_kwargs', {})
+        weights_kwargs = kwargs.get("weights_kwargs", {})
+        spectra_kwargs = kwargs.get("spectra_kwargs", {})
 
         # Forward pass through weights and spectra
         weights_result = self.weights(**weights_kwargs)

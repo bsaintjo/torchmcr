@@ -2,16 +2,19 @@ import torch
 import torch.optim as optim
 import torch.nn.functional as F
 
-def train_mcr_model(model, 
-                    observed_data, 
-                    num_epochs=1000, 
-                    mini_epochs=5, 
-                    lr=0.01, 
-                    tolerance=1e-16,
-                    optimizer_class=None, 
-                    loss_fn=None, 
-                    device='cpu', 
-                    show_every=10):
+
+def train_mcr_model(
+    model,
+    observed_data,
+    num_epochs=1000,
+    mini_epochs=5,
+    lr=0.01,
+    tolerance=1e-16,
+    optimizer_class=None,
+    loss_fn=None,
+    device="cpu",
+    show_every=10,
+):
     """
     Train the MCR model with alternating updates for spectra and weights, using custom optimizer and loss function.
 
@@ -64,7 +67,7 @@ def train_mcr_model(model,
 
 
     # Track loss for early stopping
-    prev_loss = float('inf')
+    prev_loss = float("inf")
 
     for epoch in range(num_epochs):
         epoch_loss = 0.0  # Initialize epoch loss
@@ -88,7 +91,9 @@ def train_mcr_model(model,
                     loss = spectra_optimizer.step(spectra_closure)  # Update spectra with LBFGS
                 else:
                     spectra_optimizer.zero_grad()
-                    predicted_data = model()  # Forward pass with current weights and spectra
+                    predicted_data = (
+                        model()
+                    )  # Forward pass with current weights and spectra
                     loss = loss_fn(predicted_data, observed_data)
                     loss.backward(retain_graph=True)  # Backward pass for spectra only
                     spectra_optimizer.step()  # Update spectra

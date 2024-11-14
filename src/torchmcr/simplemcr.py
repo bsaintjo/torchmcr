@@ -3,6 +3,7 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
+
 class SimpleWeights(nn.Module):
     def __init__(self, M, K, preload_weights=None, modifier=nn.Softplus()):
         """
@@ -27,6 +28,7 @@ class SimpleWeights(nn.Module):
         if self.modifier:
             return self.modifier(self.weight_matrix)
         return self.weight_matrix
+
 
 class SimpleSpectra(nn.Module):
     def __init__(self, K, N, preload_spectra=None, modifier=nn.Softplus()):
@@ -53,9 +55,18 @@ class SimpleSpectra(nn.Module):
             return self.modifier(self.spectra_matrix)
         return self.spectra_matrix
 
+
 class SimpleMCRModel(MCR):
-    def __init__(self, M_samples, K_components, N_waves, preload_weights=None, preload_spectra=None,
-                 weights_modifier=None, spectra_modifier=None):
+    def __init__(
+        self,
+        M_samples,
+        K_components,
+        N_waves,
+        preload_weights=None,
+        preload_spectra=None,
+        weights_modifier=None,
+        spectra_modifier=None,
+    ):
         """
         Initialize the SimpleMCRModel with optional preload and modifiers for weights and spectra.
 
@@ -68,8 +79,18 @@ class SimpleMCRModel(MCR):
             weights_modifier (callable, optional): Modifier function for weights.
             spectra_modifier (callable, optional): Modifier function for spectra.
         """
-        weights = SimpleWeights(M_samples, K_components, preload_weights=preload_weights, modifier=weights_modifier)
-        spectra = SimpleSpectra(K_components, N_waves, preload_spectra=preload_spectra, modifier=spectra_modifier)
+        weights = SimpleWeights(
+            M_samples,
+            K_components,
+            preload_weights=preload_weights,
+            modifier=weights_modifier,
+        )
+        spectra = SimpleSpectra(
+            K_components,
+            N_waves,
+            preload_spectra=preload_spectra,
+            modifier=spectra_modifier,
+        )
         super(SimpleMCRModel, self).__init__(weights, spectra)
         # No additional initialization needed for SimpleMCRModel
         # All functionality is inherited from MCR base class

@@ -1,11 +1,15 @@
 import numpy as np
-def generate_spectra(M_spectra,
-                     N_peaks,
-                     N_waves=1000,
-                     x_range=(0, 1000),
-                     center_limits=(100, 900),
-                     variance_limits=(1, 50),
-                     amplitude_limits=(0.5, 1.5)):
+
+
+def generate_spectra(
+    M_spectra,
+    N_peaks,
+    N_waves=1000,
+    x_range=(0, 1000),
+    center_limits=(100, 900),
+    variance_limits=(1, 50),
+    amplitude_limits=(0.5, 1.5),
+):
     """
     Generate M spectra with N Gaussian peaks.
 
@@ -30,7 +34,7 @@ def generate_spectra(M_spectra,
             center = np.random.uniform(*center_limits)
             variance = np.random.uniform(*variance_limits)
             amplitude = np.random.uniform(*amplitude_limits)
-            gaussian = amplitude * np.exp(-((x - center) ** 2) / (2 * variance ** 2))
+            gaussian = amplitude * np.exp(-((x - center) ** 2) / (2 * variance**2))
             spectra[i] += gaussian
 
     return x, spectra
