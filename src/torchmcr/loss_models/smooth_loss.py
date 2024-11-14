@@ -1,6 +1,7 @@
 import torch
-import torch.nn.functional as F
 from torch import nn
+import torch.nn.functional as F
+
 
 class SmoothLoss(torch.nn.Module):
     def __init__(self, 
@@ -82,13 +83,13 @@ class SmoothLoss(torch.nn.Module):
         # Normalize by mean absolute value to make scale-invariant
         spectra_scale = torch.mean(torch.abs(spectra))
         weights_scale = torch.mean(torch.abs(weights))
-        
+
         # Compute smoothness penalties using finite differences
         diff_spectra = (spectra[:, 1:] - spectra[:, :-1]) / spectra_scale
-        smoothness_penalty_spectra = torch.mean(diff_spectra ** 2)
-        
-        diff_weights = (weights[1:, :] - weights[:-1, :]) / weights_scale  
-        smoothness_penalty_weights = torch.mean(diff_weights ** 2)
+        smoothness_penalty_spectra = torch.mean(diff_spectra**2)
+
+        diff_weights = (weights[1:, :] - weights[:-1, :]) / weights_scale
+        smoothness_penalty_weights = torch.mean(diff_weights**2)
 
 
         # Compute weight cross-product penalty by multiplying weights along N dimension for each K

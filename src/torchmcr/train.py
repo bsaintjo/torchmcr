@@ -1,4 +1,3 @@
-import torch
 import torch.optim as optim
 import torch.nn.functional as F
 
@@ -65,7 +64,6 @@ def train_mcr_model(
     # Use closure for LBFGS and set retain_graph=True for multiple backward passes
     use_closure = optimizer_class == optim.LBFGS
 
-
     # Track loss for early stopping
     prev_loss = float("inf")
 
@@ -88,12 +86,13 @@ def train_mcr_model(
                         loss = loss_fn(predicted_data, observed_data)
                         loss.backward(retain_graph=True)
                         return loss
-                    loss = spectra_optimizer.step(spectra_closure)  # Update spectra with LBFGS
+
+                    loss = spectra_optimizer.step(
+                        spectra_closure
+                    )  # Update spectra with LBFGS
                 else:
                     spectra_optimizer.zero_grad()
-                    predicted_data = (
-                        model()
-                    )  # Forward pass with current weights and spectra
+                    predicted_data = model()  # Forward pass with current weights and spectra
                     loss = loss_fn(predicted_data, observed_data)
                     loss.backward(retain_graph=True)  # Backward pass for spectra only
                     spectra_optimizer.step()  # Update spectra
@@ -113,6 +112,7 @@ def train_mcr_model(
                         loss = loss_fn(predicted_data, observed_data)
                         loss.backward(retain_graph=True)
                         return loss
+
                     loss = weights_optimizer.step(weights_closure)  # Update weights with LBFGS
                 else:
                     weights_optimizer.zero_grad()

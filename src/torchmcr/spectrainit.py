@@ -1,7 +1,3 @@
-import torch
-import numpy as np
-import scipy
-
 """
 This module contains initialization routines for MCR analysis. Choosing good initial
 spectra estimates is critical for MCR convergence, as the algorithm can get stuck
